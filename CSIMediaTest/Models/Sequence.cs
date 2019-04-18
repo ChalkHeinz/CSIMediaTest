@@ -8,6 +8,7 @@ namespace CSIMediaTest.Models
 {
     public class Sequence
     {
+        //Look into data annotations 
         public int ID { get; set; }
         public int NewSequence { get; set; }
         public string Direction { get; set; }
