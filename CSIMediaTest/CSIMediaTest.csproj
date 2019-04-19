@@ -110,6 +110,11 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -122,6 +127,14 @@
     <Compile Include="Migrations\201904181501314_First-Migrate.cs" />
     <Compile Include="Migrations\201904181501314_First-Migrate.Designer.cs">
       <DependentUpon>201904181501314_First-Migrate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904191152032_Data-Type-Removal.cs" />
+    <Compile Include="Migrations\201904191152032_Data-Type-Removal.Designer.cs">
+      <DependentUpon>201904191152032_Data-Type-Removal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904191152303_Data-Type-TimeTaken.cs" />
+    <Compile Include="Migrations\201904191152303_Data-Type-TimeTaken.Designer.cs">
+      <DependentUpon>201904191152303_Data-Type-TimeTaken.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Sequence.cs" />
@@ -137,6 +150,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Home\SequenceList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -150,6 +165,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904181501314_First-Migrate.resx">
       <DependentUpon>201904181501314_First-Migrate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904191152032_Data-Type-Removal.resx">
+      <DependentUpon>201904191152032_Data-Type-Removal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904191152303_Data-Type-TimeTaken.resx">
+      <DependentUpon>201904191152303_Data-Type-TimeTaken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

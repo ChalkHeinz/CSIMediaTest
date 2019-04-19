@@ -10,9 +10,9 @@ namespace CSIMediaTest.Models
     {
         //Look into data annotations 
         public int ID { get; set; }
-        public int NewSequence { get; set; }
+        public string NewSequence { get; set; }
         public string Direction { get; set; }
-        public DateTime TimeTaken { get; set; }
+        public Double TimeTaken { get; set; }
     }
 
     public class SequenceDBContext : DbContext

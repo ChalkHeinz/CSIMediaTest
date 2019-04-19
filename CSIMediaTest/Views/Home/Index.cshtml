@@ -5,3 +5,27 @@
 
 <h2>Index</h2>
 
+
+@using (Html.BeginForm("Create", "Home"))
+{
+    <table>
+        <tr>
+            <td>Enter Sequence</td>
+            <td><input type="text" id="sequence_id" name="sequence" /></td>
+        </tr>
+        <tr>
+            <td>Select Order</td>
+            <td>
+                @Html.RadioButton("Order", "ascending") <span>A</span>
+                @Html.RadioButton("Order", "descending") <span>B</span>
+           </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" /></td>
+        </tr>
+    </table>
+}
+
+
+
