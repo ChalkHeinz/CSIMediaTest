@@ -21,33 +21,30 @@ namespace CSIMediaTest.Controllers
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(FormCollection form)
+        public ActionResult Create(Sequence form)
         {
-            var sequence = Request.Form[0];
-            var order = Request.Form[1];
+            var sequence = form.NewSequence;
+            Directions order = form.Direction;
             Stopwatch stopwWatch = new Stopwatch();
             double seconds = 0;
+            long[] temp;
 
-            //Prep sequence data
-            string[] temp = sequence.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            //Try prep sequence data, return index if data are not ints
+            try
+            {
+                temp = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
+            }
+            catch 
+            {
+                return RedirectToAction("Index");
+            }
+            //Sort's runtime 
+            stopwWatch.Start();
+            Array.Sort(temp);
+            stopwWatch.Stop();
 
-            if (order == "ascending")
-            {
-                //Sort's runtime 
-                stopwWatch.Start();
-                Array.Sort(temp);
-                stopwWatch.Stop();
-            }
-            else if (order == "descending")
-            {
-                //Sort's runtime 
-                stopwWatch.Start();
-                Array.Sort(temp);
-                stopwWatch.Stop();
-                temp.Reverse();
-                
-            }
+            if (order == Directions.Descending)
+                Array.Reverse(temp);
 
             seconds = stopwWatch.Elapsed.TotalMilliseconds;
             //End of manipulation of sequence data
@@ -77,5 +74,18 @@ namespace CSIMediaTest.Controllers
             return View(sequenceResultViewModel);
         }
 
+        public void Export()
+        {
+            var data = dBContext.Sequences.ToList();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment;filename=numberwang.xml");
+            Response.ContentType = "text/xml";
+
+            var serializer = new System.Xml.Serialization.XmlSerializer(data.GetType());
+            serializer.Serialize(Response.OutputStream, data);
+
+        }
     }
 }

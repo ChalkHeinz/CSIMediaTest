@@ -136,6 +136,14 @@
     <Compile Include="Migrations\201904191152303_Data-Type-TimeTaken.Designer.cs">
       <DependentUpon>201904191152303_Data-Type-TimeTaken.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904211742548_added-data-annotations.cs" />
+    <Compile Include="Migrations\201904211742548_added-data-annotations.Designer.cs">
+      <DependentUpon>201904211742548_added-data-annotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904211810041_Added-Direction-Enum.cs" />
+    <Compile Include="Migrations\201904211810041_Added-Direction-Enum.Designer.cs">
+      <DependentUpon>201904211810041_Added-Direction-Enum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Sequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,6 +179,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904191152303_Data-Type-TimeTaken.resx">
       <DependentUpon>201904191152303_Data-Type-TimeTaken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904211742548_added-data-annotations.resx">
+      <DependentUpon>201904211742548_added-data-annotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904211810041_Added-Direction-Enum.resx">
+      <DependentUpon>201904211810041_Added-Direction-Enum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

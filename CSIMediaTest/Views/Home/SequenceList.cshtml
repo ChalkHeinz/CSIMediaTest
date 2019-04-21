@@ -5,9 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SequenceList</h2>
+<h3>Your Sequence's result</h3>
 
-<table>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.Direction)</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
+    </tr>
     <tr>
         <td>@Html.DisplayFor(model => model.NewSequence.NewSequence)</td>
         <td>@Html.DisplayFor(model => model.NewSequence.Direction)</td>
@@ -15,21 +20,41 @@
     </tr>
 </table>
 
+@using (Html.BeginForm("Index", "Home"))
+{
+    <form>
+        <h4>Enter Another Sequence</h4>
+        <input type="submit" value="Home" />
+    </form>
+}
+<br />
+
+<h3>Database's Sequences</h3>
+
 <table class="table">
     <tr>
         <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
         <th>@Html.DisplayNameFor(model => model.NewSequence.Direction)</th>
-        <th>@Html.DisplayNameFor(model => model.NewSequence.TimeTaken)</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
     </tr>
 
 
-@foreach (var item in Model.Sequences)
+    @foreach (var item in Model.Sequences)
     {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.NewSequence)</td>
-        <td>@Html.DisplayFor(modelItem => item.Direction)</td>
-        <td>@Html.DisplayFor(modelItem => item.TimeTaken)</td>
-    </tr> 
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.NewSequence)</td>
+            <td>@Html.DisplayFor(modelItem => item.Direction)</td>
+            <td>@Html.DisplayFor(modelItem => item.TimeTaken)</td>
+        </tr>
     }
 
- </table>
+</table>
+
+
+@using (Html.BeginForm("Export", "Home"))
+{
+    <form>
+        <h4>Export Data</h4>
+        <input type="submit" value="Export" />
+    </form>
+}
