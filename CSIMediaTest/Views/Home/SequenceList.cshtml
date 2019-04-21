@@ -1,4 +1,5 @@
-﻿
+﻿@model CSIMediaTest.ViewModels.SequenceResultViewModel
+
 @{
     ViewBag.Title = "SequenceList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +7,29 @@
 
 <h2>SequenceList</h2>
 
+<table>
+    <tr>
+        <td>@Html.DisplayFor(model => model.NewSequence.NewSequence)</td>
+        <td>@Html.DisplayFor(model => model.NewSequence.Direction)</td>
+        <td>@Html.DisplayFor(model => model.NewSequence.TimeTaken)</td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.Direction)</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.TimeTaken)</th>
+    </tr>
+
+
+@foreach (var item in Model.Sequences)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.NewSequence)</td>
+        <td>@Html.DisplayFor(modelItem => item.Direction)</td>
+        <td>@Html.DisplayFor(modelItem => item.TimeTaken)</td>
+    </tr> 
+    }
+
+ </table>
