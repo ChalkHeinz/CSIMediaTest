@@ -32,5 +32,10 @@ namespace CSIMediaTest.Models
     public class SequenceDBContext : DbContext
     {
         public DbSet<Sequence> Sequences { get; set; }
+
+        public SequenceDBContext() : base("MyConnectionStringName")
+        {
+
+        }
     }
 }
