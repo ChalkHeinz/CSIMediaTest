@@ -15,7 +15,8 @@ namespace CSIMediaTest.Controllers
     {
         private SequenceDBContext dBContext = new SequenceDBContext();
 
-        public ActionResult Index(Sequence form)
+        // GET: Home
+        public ActionResult Index()
         {
             return View();
         }
@@ -28,52 +29,46 @@ namespace CSIMediaTest.Controllers
             double seconds = 0;
             long[] temp;
 
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index", form);
-            }
-
             //Try prep sequence data, return index if data are not ints
-             temp = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
-
+            try
+            {
+                temp = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
+            }
+            catch 
+            {
+                return RedirectToAction("Index");
+            }
             //Sort's runtime 
             stopwWatch.Start();
             Array.Sort(temp);
             stopwWatch.Stop();
 
-            //Reverse if user selects descending
             if (order == Directions.Descending)
                 Array.Reverse(temp);
 
             seconds = stopwWatch.Elapsed.TotalMilliseconds;
-            //Join long array to create new sequence
+            //End of manipulation of sequence data
             sequence = String.Join(" ", temp);
 
-            //Create new sequence object
             Sequence sequenceObject = new Sequence {
                 NewSequence = sequence,
                 Direction = order,
                 TimeTaken = seconds
             };
 
-            //Add to database
             dBContext.Sequences.Add(sequenceObject);
             dBContext.SaveChanges();
 
             return RedirectToAction("SequenceList", sequenceObject);
 
         }
-       
-        public ActionResult SequenceList(Sequence sequenceObject, string order)
+
+        
+        public ActionResult SequenceList(Sequence sequenceObject)
         {
             SequenceResultViewModel sequenceResultViewModel = new SequenceResultViewModel();
-            var temp = dBContext.Sequences.ToList();
 
-            //Sort sequences in ascending order for display
-            temp = temp.OrderBy(seq => seq.TimeTaken).ToList();
-
-            //Adding data to view model
-            sequenceResultViewModel.Sequences = temp;
+            sequenceResultViewModel.Sequences = dBContext.Sequences.ToList();
             sequenceResultViewModel.NewSequence = sequenceObject;
 
             return View(sequenceResultViewModel);
@@ -81,7 +76,6 @@ namespace CSIMediaTest.Controllers
 
         public void Export()
         {
-            //Code based from http://techfunda.com/howto/310/export-data-into-xml-from-mvc
             var data = dBContext.Sequences.ToList();
 
             Response.ClearContent();

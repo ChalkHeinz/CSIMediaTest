@@ -5,10 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Scripts/sort-table.js"></script>
-
 <h3>Your Sequence's result</h3>
-<!--Table to display new sequence-->
+
 <table class="table">
     <tr>
         <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
@@ -22,18 +20,25 @@
     </tr>
 </table>
 
-<!--Go to index-->
-<input type="button" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+@using (Html.BeginForm("Index", "Home"))
+{
+    <form>
+        <h4>Enter Another Sequence</h4>
+        <input type="submit" value="Home" />
+    </form>
+}
 <br />
 
 <h3>Database's Sequences</h3>
-<!--Table to display all sequences with sort-->
-<table class="table" id="displayTable">
+
+<table class="table">
     <tr>
         <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
         <th>@Html.DisplayNameFor(model => model.NewSequence.Direction)</th>
-        <th onclick="sortTable(2)" style="cursor:pointer;color:blue;text-decoration:underline;"> @Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
+        <th>@Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
     </tr>
+
+
     @foreach (var item in Model.Sequences)
     {
         <tr>
@@ -42,8 +47,14 @@
             <td>@Html.DisplayFor(modelItem => item.TimeTaken)</td>
         </tr>
     }
+
 </table>
-<br />
-<!--Export sequences as XML file-->
-<h4>Export database</h4>
-<input type="button" value="Export" onclick="location.href='@Url.Action("Export", "Home")'" />
+
+
+@using (Html.BeginForm("Export", "Home"))
+{
+    <form>
+        <h4>Export Data</h4>
+        <input type="submit" value="Export" />
+    </form>
+}
