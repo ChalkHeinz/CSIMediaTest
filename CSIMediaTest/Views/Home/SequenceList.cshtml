@@ -33,7 +33,7 @@
     <tr>
         <th>@Html.DisplayNameFor(model => model.NewSequence.NewSequence)</th>
         <th>@Html.DisplayNameFor(model => model.NewSequence.Direction)</th>
-        <th onclick="sortTable(2)" style="cursor:pointer;color:blue;text-decoration:underline;"> @Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
+        <th class="orderlink" onclick="sortTable(2)"> @Html.DisplayNameFor(model => model.NewSequence.TimeTaken) ms:</th>
     </tr>
     @foreach (var item in Model.Sequences)
     {

@@ -16,3 +16,8 @@ textarea {
     max-width: 280px;
 }
 
+.orderlink {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
