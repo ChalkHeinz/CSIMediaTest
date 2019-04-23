@@ -17,6 +17,7 @@ namespace CSIMediaTest.Controllers
 
         public ActionResult Index(Sequence form)
         {
+            //Object was passed to invoke form validation
             return View();
         }
 
@@ -24,7 +25,7 @@ namespace CSIMediaTest.Controllers
         {
             var sequence = form.NewSequence;
             Directions order = form.Direction;
-            Stopwatch stopwWatch = new Stopwatch();
+            Stopwatch stopWatch = new Stopwatch();
             double seconds = 0;
             long[] temp;
 
@@ -37,15 +38,15 @@ namespace CSIMediaTest.Controllers
             temp = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
 
             //Sort's runtime 
-            stopwWatch.Start();
+            stopWatch.Start();
             Array.Sort(temp);
-            stopwWatch.Stop();
+            stopWatch.Stop();
 
             //Reverse if user selects descending
             if (order == Directions.Descending)
                 Array.Reverse(temp);
 
-            seconds = stopwWatch.Elapsed.TotalMilliseconds;
+            seconds = stopWatch.Elapsed.TotalMilliseconds;
             //Join long array to create new sequence
             sequence = String.Join(" ", temp);
 
