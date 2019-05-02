@@ -7,12 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CSIMediaTest.Models
 {
-    public enum Directions
-    {
-        Ascending,
-        Descending
-    }
-
     public class Sequence
     {
         public int ID { get; set; }
@@ -29,13 +23,9 @@ namespace CSIMediaTest.Models
         public Double TimeTaken { get; set; }
     }
 
-    public class SequenceDBContext : DbContext
+    public enum Directions
     {
-        public DbSet<Sequence> Sequences { get; set; }
-
-        public SequenceDBContext() : base("MyConnectionStringName")
-        {
-
-        }
+        Ascending,
+        Descending
     }
 }
