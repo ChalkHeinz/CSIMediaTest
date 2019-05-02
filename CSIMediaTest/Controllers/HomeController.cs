@@ -23,77 +23,53 @@ namespace CSIMediaTest.Controllers
 
         public ActionResult Create(Sequence form)
         {
-            var sequence = form.NewSequence;
-            Directions order = form.Direction;
-            Stopwatch stopWatch = new Stopwatch();
-            double seconds = 0;
-            long[] temp;
-
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", form);
             }
 
-            //Try prep sequence data, return index if data are not ints
-            temp = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
+            var sequence = form.NewSequence;
+            var direction = form.Direction;
 
-            //Sort's runtime 
-            stopWatch.Start();
-            Array.Sort(temp);
-            stopWatch.Stop();
-
-            //Reverse if user selects descending
-            if (order == Directions.Descending)
-                Array.Reverse(temp);
-
-            seconds = stopWatch.Elapsed.TotalMilliseconds;
-            //Join long array to create new sequence
-            sequence = String.Join(" ", temp);
+            var results = OrderSequence(sequence, direction);
 
             //Create new sequence object
-            Sequence sequenceObject = new Sequence
+            var sequenceObject = new Sequence
             {
-                NewSequence = sequence,
-                Direction = order,
-                TimeTaken = seconds
+                NewSequence = results.Item2,
+                Direction = direction,
+                TimeTaken = results.Item1
             };
 
             //Add to database
             dBContext.Sequences.Add(sequenceObject);
             dBContext.SaveChanges();
-
-            return RedirectToAction("SequenceList", sequenceObject);
+            return RedirectToAction("SequenceList", "SequenceList", sequenceObject);
 
         }
 
-        public ActionResult SequenceList(Sequence sequenceObject, string order)
+        public Tuple<Double, String> OrderSequence(string sequence, Directions direction)
         {
-            SequenceResultViewModel sequenceResultViewModel = new SequenceResultViewModel();
-            var temp = dBContext.Sequences.ToList();
+            var sequenceArray = sequence.Split(' ').Select(n => Convert.ToInt64(n)).ToArray();
+            var stopWatch = new Stopwatch();
 
-            //Sort sequences in ascending order for display
-            temp = temp.OrderBy(seq => seq.TimeTaken).ToList();
+            if(direction == Directions.Ascending)
+            {
+                stopWatch.Start();
+                Array.Sort(sequenceArray);
+                stopWatch.Stop();
+            }
+            else
+            {
+                stopWatch.Start();
+                Array.Sort(sequenceArray);
+                Array.Reverse(sequenceArray);
+                stopWatch.Stop();
+            }
 
-            //Adding data to view model
-            sequenceResultViewModel.Sequences = temp;
-            sequenceResultViewModel.NewSequence = sequenceObject;
-
-            return View(sequenceResultViewModel);
+            return Tuple.Create(stopWatch.Elapsed.TotalMilliseconds, String.Join(" ", sequenceArray));
         }
 
-        public void Export()
-        {
-            //Code based from http://techfunda.com/howto/310/export-data-into-xml-from-mvc
-            var data = dBContext.Sequences.ToList();
-
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment;filename=numberwang.xml");
-            Response.ContentType = "text/xml";
-
-            var serializer = new System.Xml.Serialization.XmlSerializer(data.GetType());
-            serializer.Serialize(Response.OutputStream, data);
-
-        }
+       
     }
 }
