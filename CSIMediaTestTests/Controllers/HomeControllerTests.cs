@@ -6,22 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSIMediaTest.Models;
+using System.Web.Mvc;
+using Moq;
+using CSIMediaTest.DataContext;
+using System.Data.Entity;
 
 namespace CSIMediaTest.Controllers.Tests
 {
     [TestClass()]
     public class HomeControllerTests
-    {
+    {        
         [TestMethod()]
-        public void IndexTest()
+        public void IndexTest_InvokeView_ReturnsView()
         {
-            Assert.Fail();
+            //Arrange
+            var controller = new HomeController();
+            var sequence = new Sequence { NewSequence = "d3", Direction = Directions.Ascending };
+
+            //Act
+            var result = controller.Index(sequence) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("", result.ViewName);
         }
 
+        //Moq needs to be looked into before further work
         [TestMethod()]
         public void CreateTest()
         {
-            Assert.Fail();
+            //Arrange 
+            var mock = new Mock<SequenceDBContext>();
+
+            var controller = new HomeController(mock.Object);
+            var sequence = new Sequence { NewSequence = "2 1 3", Direction = Directions.Ascending };
+
+            //Act
+            var viewResult = controller.Create(sequence);
+
+            //Assert
+            Assert.IsInstanceOfType(viewResult, typeof(RedirectToRouteResult));
         }
 
         [TestMethod()]
@@ -35,7 +58,7 @@ namespace CSIMediaTest.Controllers.Tests
             //Act
             var result = controller.OrderSequence(sequence, Directions.Ascending);
 
-            //Asert
+            //Assert
             Assert.AreEqual(newSequence, result.Item2);
         }
 
@@ -50,7 +73,7 @@ namespace CSIMediaTest.Controllers.Tests
             //Act
             var result = controller.OrderSequence(sequence, Directions.Descending);
 
-            //Asert
+            //Assert
             Assert.AreEqual(newSequence, result.Item2);
         }
     }

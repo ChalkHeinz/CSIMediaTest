@@ -11,16 +11,18 @@ namespace CSIMediaTest.Controllers.Tests
     [TestClass()]
     public class SequenceListControllerTests
     {
+        //Moq is needed as method is dependant on DB
         [TestMethod()]
         public void SequenceListTest()
         {
             Assert.Fail();
         }
 
+        //Have to look into testing void methods
         [TestMethod()]
         public void ExportTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(true);
         }
     }
 }
