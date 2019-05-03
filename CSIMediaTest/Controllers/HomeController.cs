@@ -39,17 +39,14 @@ namespace CSIMediaTest.Controllers
                 return RedirectToAction("Index", form);
             }
 
-            var sequence = form.NewSequence;
-            var direction = form.Direction;
-
-            var results = OrderSequence(sequence, direction);
+            var orderedSequence = OrderSequence(form.NewSequence, form.Direction);
 
             //Create new sequence object
             var sequenceObject = new Sequence
             {
-                NewSequence = results.Item2,
-                Direction = direction,
-                TimeTaken = results.Item1
+                NewSequence = orderedSequence.Item2,
+                Direction = form.Direction,
+                TimeTaken = orderedSequence.Item1
             };
 
             //Add to database
