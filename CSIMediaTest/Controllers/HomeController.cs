@@ -14,7 +14,17 @@ namespace CSIMediaTest.Controllers
 {
     public class HomeController : Controller
     {
-        private SequenceDBContext dBContext = new SequenceDBContext();
+        private SequenceDBContext _dBContext;
+
+        public HomeController(SequenceDBContext dBContext)
+        {
+            _dBContext = dBContext;
+        }
+
+        public HomeController()
+        {
+            _dBContext = new SequenceDBContext();
+        }
 
         public ActionResult Index(Sequence form)
         {
@@ -43,8 +53,8 @@ namespace CSIMediaTest.Controllers
             };
 
             //Add to database
-            dBContext.Sequences.Add(sequenceObject);
-            dBContext.SaveChanges();
+            _dBContext.Sequences.Add(sequenceObject);
+            _dBContext.SaveChanges();
             return RedirectToAction("SequenceList", "SequenceList", sequenceObject);
 
         }

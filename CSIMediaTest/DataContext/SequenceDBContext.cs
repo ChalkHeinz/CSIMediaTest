@@ -9,9 +9,9 @@ namespace CSIMediaTest.DataContext
 {
     public class SequenceDBContext : DbContext
     {
-        public DbSet<Sequence> Sequences { get; set; }
+        public virtual DbSet<Sequence> Sequences { get; set; }
 
-        public SequenceDBContext() : base("MyConnectionStringName")
+        public SequenceDBContext() : base("MyConnectionStringNam")
         {
 
         }

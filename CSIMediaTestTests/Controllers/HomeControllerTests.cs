@@ -35,9 +35,11 @@ namespace CSIMediaTest.Controllers.Tests
         public void CreateTest()
         {
             //Arrange 
-            var mock = new Mock<SequenceDBContext>();
+            var mockSet = new Mock<DbSet<Sequence>>();
+            var mockContext = new Mock<SequenceDBContext>();
+            mockContext.Setup(x => x.Sequences).Returns(mockSet.Object);
 
-            var controller = new HomeController(mock.Object);
+            var controller = new HomeController(mockContext.Object);
             var sequence = new Sequence { NewSequence = "2 1 3", Direction = Directions.Ascending };
 
             //Act
