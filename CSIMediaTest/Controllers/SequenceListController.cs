@@ -11,12 +11,22 @@ namespace CSIMediaTest.Controllers
 {
     public class SequenceListController : Controller
     {
-        private SequenceDBContext dBContext = new SequenceDBContext();
+        private SequenceDBContext _dBContext;
+
+        public SequenceListController()
+        {
+            _dBContext = new SequenceDBContext();
+        }
+
+        public SequenceListController(SequenceDBContext dbContext)
+        {
+            _dBContext = dbContext;
+        }
 
         public ActionResult SequenceList(Sequence sequenceObject)
         {
             var sequenceResultViewModel = new SequenceResultViewModel();
-            var orderedSequence = dBContext.Sequences.OrderBy(seq => seq.TimeTaken).ToList();
+            var orderedSequence = _dBContext.Sequences.OrderBy(seq => seq.TimeTaken).ToList();
 
             //Adding data to view model
             sequenceResultViewModel.Sequences = orderedSequence;
@@ -28,7 +38,7 @@ namespace CSIMediaTest.Controllers
         public void Export()
         {
             //Code based from http://techfunda.com/howto/310/export-data-into-xml-from-mvc
-            var data = dBContext.Sequences.ToList();
+            var data = _dBContext.Sequences.ToList();
 
             Response.ClearContent();
             Response.Buffer = true;
