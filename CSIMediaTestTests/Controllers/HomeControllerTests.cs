@@ -33,10 +33,13 @@ namespace CSIMediaTest.Controllers.Tests
         {
             //Arrange
             var controller = new HomeController();
-            var sequence = new Sequence { NewSequence = "3", Direction = Directions.Ascending };
 
             //Act
-            var result = controller.Index(sequence) as ViewResult;
+            var result = controller.Index(new Sequence
+            {
+                NewSequence = "3",
+                Direction = Directions.Ascending
+            }) as ViewResult;
 
             //Assert
             Assert.AreEqual("", result.ViewName);
@@ -47,10 +50,13 @@ namespace CSIMediaTest.Controllers.Tests
         {
             //Arrange          
             var controller = new HomeController(mockContext.Object);
-            var sequence = new Sequence { NewSequence = "2 1 3", Direction = Directions.Ascending };
 
             //Act
-            var result = (RedirectToRouteResult)controller.Create(sequence);
+            var result = (RedirectToRouteResult)controller.Create(new Sequence
+            {
+                NewSequence = "2 1 3",
+                Direction = Directions.Ascending
+            });
 
             //Assert
             Assert.IsTrue(result.RouteValues["action"].Equals("SequenceList"));
@@ -74,30 +80,26 @@ namespace CSIMediaTest.Controllers.Tests
         public void OrderSequenceTest_AscendingOrder_ReturnAscendingOrder()
         {
             //Arrange
-            var sequence = "5 4 6 2 1";
-            var newSequence = "1 2 4 5 6";
             var controller = new HomeController();
 
             //Act
-            var result = controller.OrderSequence(sequence, Directions.Ascending);
+            var result = controller.OrderSequence("5 4 6 2 1", Directions.Ascending);
 
             //Assert
-            Assert.AreEqual(newSequence, result.Item2);
+            Assert.AreEqual("1 2 4 5 6", result.Item2);
         }
 
         [TestMethod()]
         public void OrderSequenceTest_DescendingOrder_ReturnDescendingOrder()
         {
             //Arrange
-            var sequence = "5 4 6 2 1";
-            var newSequence = "6 5 4 2 1";
             var controller = new HomeController();
 
             //Act
-            var result = controller.OrderSequence(sequence, Directions.Descending);
+            var result = controller.OrderSequence("5 4 6 2 1", Directions.Descending);
 
             //Assert
-            Assert.AreEqual(newSequence, result.Item2);
+            Assert.AreEqual("6 5 4 2 1", result.Item2);
         }
     }
 }

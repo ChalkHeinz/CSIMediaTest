@@ -43,10 +43,14 @@ namespace CSIMediaTest.Controllers.Tests
         {
             //Assign
             var controller = new SequenceListController(mockContext.Object);
-            var sequence = new Sequence { NewSequence = "1 2 3", Direction = Directions.Ascending, TimeTaken = 0.2 };
 
             //Act
-            var result = controller.SequenceList(sequence);
+            var result = controller.SequenceList(new Sequence
+            {
+                NewSequence = "1 2 3",
+                Direction = Directions.Ascending,
+                TimeTaken = 0.2
+            });
 
             //Assert           
             Assert.IsInstanceOfType(result, typeof(ViewResult));
