@@ -25,13 +25,11 @@ namespace CSIMediaTest.Controllers
 
         public ActionResult SequenceList(Sequence sequenceObject)
         {
-            var sequenceResultViewModel = new SequenceResultViewModel();
-
-            //Adding data to view model
-            sequenceResultViewModel.Sequences = _dBContext.Sequences.OrderBy(seq => seq.TimeTaken).ToList();
-            sequenceResultViewModel.NewSequence = sequenceObject;
-
-            return View(sequenceResultViewModel);
+            return View(new SequenceResultViewModel
+            {
+                Sequences = _dBContext.Sequences.OrderBy(seq => seq.TimeTaken).ToList(),
+                NewSequence = sequenceObject
+            });
         }
 
         public void Export()
