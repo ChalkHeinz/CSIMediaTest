@@ -11,8 +11,8 @@ namespace CSIMediaTest.Models
     {
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Your Sequence")]
-        [RegularExpression(@"^(?!.*  )[\d\s]*$", ErrorMessage = "The Sequence Must Be Numbers Only")]
+        [Required(ErrorMessage = "The Sequence Field Should Not Be Empty")]
+        [RegularExpression(@"^(?!.*  )[\d\s]*$", ErrorMessage = "The Sequence Must Only Contain Numbers (0-9) and Spaces")]
         [Display(Name = "Sequence")]
         public string NewSequence { get; set; }
 

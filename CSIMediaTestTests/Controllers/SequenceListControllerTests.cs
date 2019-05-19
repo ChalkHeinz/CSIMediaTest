@@ -42,7 +42,7 @@ namespace CSIMediaTest.Controllers.Tests
         public void SequenceListTest_PassSequence_ReturnViewResult()
         {
             //Assign
-            var controller = new SequenceListController(mockContext.Object);
+            var controller = new SequenceController(mockContext.Object);
 
             //Act
             var result = controller.SequenceList(new Sequence
