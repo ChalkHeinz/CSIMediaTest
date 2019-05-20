@@ -24,7 +24,18 @@ namespace CSIMediaTest.Controllers.Tests
         public void Init()
         {
             mockSet = new Mock<DbSet<Sequence>>();
+            var sequence = new List<Sequence>
+            {
+                new Sequence {ID = 1, NewSequence = "1 2 3", Direction = Directions.Ascending, TimeTaken = 0.1}
+            }.AsQueryable();
+
+            mockSet.As<IQueryable<Sequence>>().Setup(m => m.Provider).Returns(sequence.Provider);
+            mockSet.As<IQueryable<Sequence>>().Setup(m => m.Expression).Returns(sequence.Expression);
+            mockSet.As<IQueryable<Sequence>>().Setup(m => m.ElementType).Returns(sequence.ElementType);
+            mockSet.As<IQueryable<Sequence>>().Setup(m => m.GetEnumerator()).Returns(sequence.GetEnumerator());
+
             mockContext = new Mock<SequenceDBContext>();
+
             mockContext.Setup(x => x.Sequences).Returns(mockSet.Object);
         }
 
@@ -35,71 +46,32 @@ namespace CSIMediaTest.Controllers.Tests
             var controller = new HomeController();
 
             //Act
-            var result = controller.Index(new Sequence
-            {
-                NewSequence = "3",
-                Direction = Directions.Ascending
-            }) as ViewResult;
+            var result = controller.Index() as ViewResult;
 
             //Assert
             Assert.AreEqual("", result.ViewName);
         }
 
         [TestMethod()]
-        public void CreateTest_EnterSequence_ReturnSequenceList()
+        public void SequenceListTest_PassSequence_ReturnViewResult()
         {
-            //Arrange          
+            //Assign
             var controller = new HomeController(mockContext.Object);
 
             //Act
-            var result = (RedirectToRouteResult)controller.Create(new Sequence
+            var result = controller.SequenceList(new Sequence
             {
-                NewSequence = "2 1 3",
-                Direction = Directions.Ascending
+                NewSequence = "1 2 3",
+                Direction = Directions.Ascending,
+                TimeTaken = 0.2
             });
 
-            //Assert
-            Assert.IsTrue(result.RouteValues["action"].Equals("SequenceList"));
+            //Assert           
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
-        [TestMethod()]
-        public void CreateTest_InvalidSequence_ReturnIndex()
-        {
-            //Arrange 
-            var controller = new HomeController();
-            controller.ModelState.AddModelError("Incorrect Model", "Incorrect Model");
 
-            //Act
-            var result = (RedirectToRouteResult)controller.Create(new Sequence());
 
-            //Assert
-            Assert.IsTrue(result.RouteValues["action"].Equals("Index"));
-        }
-
-        [TestMethod()]
-        public void OrderSequenceTest_AscendingOrder_ReturnAscendingOrder()
-        {
-            //Arrange
-            var controller = new HomeController();
-
-            //Act
-            var result = controller.OrderSequence("5 4 6 2 1", Directions.Ascending);
-
-            //Assert
-            Assert.AreEqual("1 2 4 5 6", result.Item2);
-        }
-
-        [TestMethod()]
-        public void OrderSequenceTest_DescendingOrder_ReturnDescendingOrder()
-        {
-            //Arrange
-            var controller = new HomeController();
-
-            //Act
-            var result = controller.OrderSequence("5 4 6 2 1", Directions.Descending);
-
-            //Assert
-            Assert.AreEqual("6 5 4 2 1", result.Item2);
-        }
+       
     }
 }

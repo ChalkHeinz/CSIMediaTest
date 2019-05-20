@@ -14,7 +14,7 @@ using System.Web.Mvc;
 namespace CSIMediaTest.Controllers.Tests
 {
     [TestClass()]
-    public class SequenceListControllerTests
+    public class SequenceControllerTests
     {
         private Mock<DbSet<Sequence>> mockSet;
         private Mock<SequenceDBContext> mockContext;
@@ -39,24 +39,46 @@ namespace CSIMediaTest.Controllers.Tests
         }
 
         [TestMethod()]
-        public void SequenceListTest_PassSequence_ReturnViewResult()
+        public void OrderSequenceTest_AscendingOrder_ReturnAscendingOrder()
         {
-            //Assign
+            //Arrange
+            var controller = new SequenceController();
+
+            //Act
+            var result = controller.OrderSequence("5 4 6 2 1", Directions.Ascending);
+
+            //Assert
+            Assert.AreEqual("1 2 4 5 6", result.Item2);
+        }
+
+        [TestMethod()]
+        public void OrderSequenceTest_DescendingOrder_ReturnDescendingOrder()
+        {
+            //Arrange
+            var controller = new SequenceController();
+
+            //Act
+            var result = controller.OrderSequence("5 4 6 2 1", Directions.Descending);
+
+            //Assert
+            Assert.AreEqual("6 5 4 2 1", result.Item2);
+        }
+
+        [TestMethod()]
+        public void CreateTest_EnterSequence_ReturnSequenceList()
+        {
+            //Arrange          
             var controller = new SequenceController(mockContext.Object);
 
             //Act
-            var result = controller.SequenceList(new Sequence
+            var result = (RedirectToRouteResult)controller.Create(new Sequence
             {
-                NewSequence = "1 2 3",
-                Direction = Directions.Ascending,
-                TimeTaken = 0.2
+                NewSequence = "2 1 3",
+                Direction = Directions.Ascending
             });
 
-            //Assert           
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            //Assert
+            Assert.IsTrue(result.RouteValues["action"].Equals("SequenceList"));
         }
-
-
-        //Wasn't quite sure how to unit test Export()
     }
 }
